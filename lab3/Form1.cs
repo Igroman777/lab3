@@ -9,6 +9,8 @@ namespace lab3
 {
     public partial class Form1 : Form
     {
+        byte[] arrAfterXOR;
+        bool flag = false;
         public Form1()
         {
             InitializeComponent();
@@ -58,28 +60,31 @@ namespace lab3
         {
             string text = tb_text.Text;
             byte[] arr_text;
-            if (cipher == "")
+            if (flag == false)
             {
-                arr_text = Encoding.UTF8.GetBytes(text);
+                arr_text = Encoding.UTF32.GetBytes(text);
+                flag = true;
             }
             else
             {
-                arr_text = Encoding.UTF8.GetBytes(cipher);
+                arr_text = arrAfterXOR;
+                flag = false;
             }
 
             myShowToolTip(tb_text, arr_text);
 
             string key = tb_Key.Text;
-            byte[] arr_key = Encoding.UTF8.GetBytes(key);
+            byte[] arr_key = Encoding.UTF32.GetBytes(key);
             BitArray array_key = new BitArray(Encoding.UTF8.GetBytes(key));
             myShowToolTip(tb_Key, arr_key);
 
             byte[] arr_cipher = myXOR(arr_text, arr_key);
 
-            cipher = Encoding.UTF8.GetString(arr_cipher);
+            cipher = Encoding.UTF32.GetString(arr_cipher);
             tb_cipher.Text = cipher;
             BitArray cipherr = new BitArray(Encoding.UTF8.GetBytes(cipher));
             myShowToolTip(tb_cipher, arr_cipher);
+            arrAfterXOR = arr_cipher;
 
             return cipher;
         }
